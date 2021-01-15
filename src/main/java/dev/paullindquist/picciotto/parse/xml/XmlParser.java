@@ -1,17 +1,30 @@
-package dev.paullindquist.picciotto.parse;
+package dev.paullindquist.picciotto.parse.xml;
 
-import dev.paullindquist.picciotto.parse.xml.QNames;
+import dev.paullindquist.picciotto.converters.WorkbookToPoi;
+import dev.paullindquist.picciotto.parse.Parser;
+import dev.paullindquist.picciotto.parse.css.CSSParser;
 import dev.paullindquist.picciotto.structure.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.*;
 
 public class XmlParser implements Parser {
     final Logger logger = LoggerFactory.getLogger(XmlParser.class);
+    private CSSParser cssParser;
+
+    private XmlParser() {
+    }
+
+    public XmlParser(CSSParser cssParser) {
+        this.cssParser = cssParser;
+    }
 
     private List<Column> findColumns(XmlCursor cursor) {
         List<Column> results = new ArrayList<>();
@@ -36,27 +49,19 @@ public class XmlParser implements Parser {
         XmlCursor tempCursor = cursor.newCursor();
         tempCursor.selectPath("row");
         while (tempCursor.toNextSelection()) {
-            List<Cell> cells = findCells(tempCursor);
+            tempCursor.push();
+            List<Cell> cells = new ArrayList<>();
+            if (tempCursor.toChild(QNames.CELL)) {
+                CellParser cellParser = new CellParser(cssParser);
+                do {
+                    cells.add(cellParser.parse(tempCursor.xmlText()).orElse(CellParser.ERROR_CELL));
+                } while (cursor.toNextSibling(QNames.CELL));
+            }
+            tempCursor.pop();
             Row row = Row.builder()
                 .cells(cells)
                 .build();
             results.add(row);
-        }
-        tempCursor.dispose();
-        return results;
-    }
-
-    private List<Cell> findCells(XmlCursor cursor) {
-        List<Cell> results = new ArrayList<>();
-        XmlCursor tempCursor = cursor.newCursor();
-        tempCursor.selectPath("cell");
-        while (tempCursor.toNextSelection()) {
-            String style = tempCursor.getAttributeText(QNames.STYLE);
-            Cell cell = Cell.builder()
-                .style(style)
-                .value(tempCursor.getTextValue())
-                .build();
-            results.add(cell);
         }
         tempCursor.dispose();
         return results;
@@ -119,8 +124,20 @@ public class XmlParser implements Parser {
             return Optional.empty();
         }
     }
+
     @Override
     public Optional<Workbook> parse(String content) {
         return doParse(content);
+    }
+
+    public void parseToBAIS(String content, ByteArrayOutputStream stream) throws IOException {
+        Optional<Workbook> parsed = doParse(content);
+        if (parsed.isPresent()) {
+            Workbook workbook = parsed.get();
+            WorkbookToPoi workbookToPoi = new WorkbookToPoi();
+            XSSFWorkbook converted = workbookToPoi.workbookToXSSFWorkbook(workbook);
+            converted.write(stream);
+            converted.close();
+        }
     }
 }

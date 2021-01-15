@@ -13,6 +13,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>picciotto</name>
 	<description>Spreadsheet generator</description>
+    <repositories>
+        <repository>
+            <id>Edinburgh PH Repository</id>
+            <url>https://www2.ph.ed.ac.uk/maven2/</url>
+        </repository>
+    </repositories>
 
 	<properties>
 		<java.version>11</java.version>
@@ -20,14 +26,26 @@
 
 	<dependencies>
         <dependency>
-            <groupId>org.apache.xmlbeans</groupId>
-            <artifactId>xmlbeans</artifactId>
-            <version>4.0.0</version>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>saxon9</artifactId>
+            <version>9.1.0.8</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>net.sf.saxon</groupId>
-            <artifactId>Saxon-HE</artifactId>
-            <version>10.3</version>
+            <artifactId>saxon9-dom</artifactId>
+            <version>9.1.0.8</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.helger</groupId>
+            <artifactId>ph-css</artifactId>
+            <version>6.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.cssparser</groupId>
+            <artifactId>cssparser</artifactId>
+            <version>0.9.29</version>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
@@ -53,13 +71,13 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>2.0.0-alpha1</version>
+            <version>1.7.30</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>2.0.0-alpha0</version>
-            <scope>runtime</scope>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -67,6 +85,13 @@
             <version>5.7.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.7.0</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
     <build>
 		<plugins>

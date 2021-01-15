@@ -1,5 +1,11 @@
 package dev.paullindquist.picciotto.parse;
 
+import dev.paullindquist.picciotto.converters.poi.cell.style.BackgroundStyle;
+import dev.paullindquist.picciotto.converters.poi.cell.style.Border;
+import dev.paullindquist.picciotto.converters.poi.cell.style.PoiStyle;
+import dev.paullindquist.picciotto.parse.css.CSSParser;
+import dev.paullindquist.picciotto.parse.css.PHCSSParser;
+import dev.paullindquist.picciotto.parse.xml.XmlParser;
 import dev.paullindquist.picciotto.structure.Cell;
 import dev.paullindquist.picciotto.structure.Row;
 import dev.paullindquist.picciotto.structure.Sheet;
@@ -7,9 +13,12 @@ import dev.paullindquist.picciotto.structure.Workbook;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class XmlParserTest {
 
@@ -20,7 +29,9 @@ class XmlParserTest {
 
     @BeforeEach
     private void before() {
-        parser = new XmlParser();
+        //CSSParser cssParser = new SteadyStateCSSParser();
+        CSSParser cssParser = new PHCSSParser();
+        parser = new XmlParser(cssParser);
     }
 
     @Test
@@ -98,5 +109,57 @@ class XmlParserTest {
             }
         }
         assertEquals(BAR, content);
+    }
+
+    @Test
+    public void shouldFindCellWidthStyle() {
+        Optional<Workbook> parsed = parser.parse("<workbook><name>" + HELLO_WORLD + "</name>" +
+            "<sheet name=\"" + FOO + "\">" +
+            "<row><cell style='background:#dedede'>" + BAR + "</cell></row>" +
+            "</sheet></workbook>");
+        String found;
+        if (parsed.isPresent()) {
+            Set<Sheet> sheets = parsed.get().getSheets();
+            for (Sheet sheet : sheets) {
+                for (Row row : sheet.getRows()) {
+                    for (Cell cell : row.getCells()) {
+                        for (PoiStyle style : cell.getStyles().values()) {
+                            if (style instanceof BackgroundStyle) {
+                                found = ((BackgroundStyle) style).getColor();
+                                assertEquals(found.toString(), "dedede");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    public void shouldFindCellStyle() {
+        Optional<Workbook> parsed = parser.parse("<workbook><name>" + HELLO_WORLD + "</name>" +
+            "<sheet name=\"" + FOO + "\">" +
+            "<row><cell style='background:#dedede;border: solid thin red'>" + BAR + "</cell></row>" +
+            "</sheet></workbook>");
+        String found;
+        if (parsed.isPresent()) {
+            Set<Sheet> sheets = parsed.get().getSheets();
+            for (Sheet sheet : sheets) {
+                for (Row row : sheet.getRows()) {
+                    for (Cell cell : row.getCells()) {
+                        for (PoiStyle style : cell.getStyles().values()) {
+                            if (style instanceof BackgroundStyle) {
+                                found = ((BackgroundStyle) style).getColor();
+                                assertEquals(found, "dedede");
+                            }
+                            if (style instanceof Border) {
+                                found = ((Border) style).getBorderColor();
+                                assertEquals(found, "ff0000");
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
