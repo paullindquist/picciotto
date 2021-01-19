@@ -1,25 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:security="http://www.springframework.org/schema/security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Tester</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 
 <body>
 
-<p data-th-text="${hello}">Welcome to our grocery store!</p>
 <form method="post">
    <textarea name="xml">
        <workbook>
-           <sheet>
-                <row><cell style="background:#ff0000;border:solid thin green">foo</cell></row>
+           <sheet name="hello world">
+                <row><cell style="border-bottom:1px blue" rowspan="5">Five</cell></row>
            </sheet>
        </workbook>
    </textarea>
     <button>go</button>
     <input type="hidden"
            th:name="${_csrf.parameterName}"
-           th:value="${_csrf.token}" />
+           th:value="${_csrf.token}"/>
 </form>
 </body>
 

@@ -10,6 +10,10 @@ public abstract class AbstractStyleFactory {
         switch (selector) {
             case "background":
                 return Optional.of(new BackgroundStyleFactory());
+            case "border-top":
+            case "border-right":
+            case "border-bottom":
+            case "border-left":
             case "border":
                 return Optional.of(new BorderStyleFactory());
         }

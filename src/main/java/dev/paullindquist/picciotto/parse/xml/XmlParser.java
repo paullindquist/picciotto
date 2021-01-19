@@ -55,7 +55,7 @@ public class XmlParser implements Parser {
                 CellParser cellParser = new CellParser(cssParser);
                 do {
                     cells.add(cellParser.parse(tempCursor.xmlText()).orElse(CellParser.ERROR_CELL));
-                } while (cursor.toNextSibling(QNames.CELL));
+                } while (tempCursor.toNextSibling(QNames.CELL));
             }
             tempCursor.pop();
             Row row = Row.builder()

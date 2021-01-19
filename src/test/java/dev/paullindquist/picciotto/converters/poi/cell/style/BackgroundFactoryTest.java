@@ -1,7 +1,6 @@
 package dev.paullindquist.picciotto.converters.poi.cell.style;
 
 import dev.paullindquist.picciotto.parse.css.Rule;
-import javafx.scene.paint.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +9,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class BackgroundStyleFactoryTest {
+class BackgroundFactoryTest {
 
     AbstractStyleFactory backgroundStyleFactory;
 
@@ -32,7 +31,7 @@ class BackgroundStyleFactoryTest {
             .builder()
             .values(values)
             .build();
-        BackgroundStyle style = (BackgroundStyle) backgroundStyleFactory.getStyle(rule);
+        Background style = (Background) backgroundStyleFactory.getStyle(rule);
         assertEquals("dedede", style.getColor());
     }
 
@@ -44,7 +43,7 @@ class BackgroundStyleFactoryTest {
             .builder()
             .values(values)
             .build();
-        BackgroundStyle style = (BackgroundStyle) backgroundStyleFactory.getStyle(rule);
+        Background style = (Background) backgroundStyleFactory.getStyle(rule);
         assertEquals(BackgroundStyleFactory.DEFAULT_BACKGROUND_COLOR, style.getColor());
     }
 }

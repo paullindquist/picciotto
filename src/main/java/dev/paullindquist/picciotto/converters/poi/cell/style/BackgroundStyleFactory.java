@@ -12,7 +12,7 @@ import java.util.Optional;
 public class BackgroundStyleFactory extends AbstractStyleFactory {
     public static final String DEFAULT_BACKGROUND_COLOR = "ffffff";
 
-    public static final PoiStyle DEFAULT_BACKGROUND_STYLE = BackgroundStyle.builder().build();
+    public static final PoiStyle DEFAULT_BACKGROUND_STYLE = Background.builder().build();
 
     @Override
     public PoiStyle getStyle(Rule rule) {
@@ -30,7 +30,7 @@ public class BackgroundStyleFactory extends AbstractStyleFactory {
             } else {
                 colorHex = DEFAULT_BACKGROUND_COLOR;
             }
-            return BackgroundStyle
+            return Background
                 .builder()
                 .color(colorHex)
                 .build();

@@ -9,7 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFColor;
 
 @Data
 @Builder
-public class BackgroundStyle implements PoiStyle {
+public class Background implements PoiStyle {
     private final String color;
     private final String backgroundImage;
     private final String backgroundPosition;

@@ -1,6 +1,6 @@
 package dev.paullindquist.picciotto.parse;
 
-import dev.paullindquist.picciotto.converters.poi.cell.style.BackgroundStyle;
+import dev.paullindquist.picciotto.converters.poi.cell.style.Background;
 import dev.paullindquist.picciotto.converters.poi.cell.style.Border;
 import dev.paullindquist.picciotto.converters.poi.cell.style.PoiStyle;
 import dev.paullindquist.picciotto.parse.css.CSSParser;
@@ -124,8 +124,8 @@ class XmlParserTest {
                 for (Row row : sheet.getRows()) {
                     for (Cell cell : row.getCells()) {
                         for (PoiStyle style : cell.getStyles().values()) {
-                            if (style instanceof BackgroundStyle) {
-                                found = ((BackgroundStyle) style).getColor();
+                            if (style instanceof Background) {
+                                found = ((Background) style).getColor();
                                 assertEquals(found.toString(), "dedede");
                             }
                         }
@@ -148,8 +148,8 @@ class XmlParserTest {
                 for (Row row : sheet.getRows()) {
                     for (Cell cell : row.getCells()) {
                         for (PoiStyle style : cell.getStyles().values()) {
-                            if (style instanceof BackgroundStyle) {
-                                found = ((BackgroundStyle) style).getColor();
+                            if (style instanceof Background) {
+                                found = ((Background) style).getColor();
                                 assertEquals(found, "dedede");
                             }
                             if (style instanceof Border) {

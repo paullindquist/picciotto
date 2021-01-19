@@ -36,6 +36,7 @@ public class Border implements PoiStyle {
 
     @Override
     public void setStyle(XSSFCellStyle style) {
+        // TODO: This..
         style.setBorderColor(XSSFCellBorder.BorderSide.TOP, ColorConverter.hexToXSSFColor("#" + borderColor));
         style.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, ColorConverter.hexToXSSFColor("#" + borderColor));
         style.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, ColorConverter.hexToXSSFColor("#" + borderColor));
