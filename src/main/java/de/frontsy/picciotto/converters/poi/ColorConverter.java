@@ -1,7 +1,6 @@
 package de.frontsy.picciotto.converters.poi;
 
 import com.helger.css.utils.ECSSColor;
-import de.frontsy.picciotto.structure.Color;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.xssf.usermodel.DefaultIndexedColorMap;
 import org.apache.poi.xssf.usermodel.XSSFColor;
@@ -15,30 +14,20 @@ public class ColorConverter {
      * @param color
      * @return a 6 character hex color
      */
-    public static Optional<Color> toHex(String color) {
+    public static Optional<String> toHex(String color) {
         String hex = null;
-        String name = "";
-
         if (color.startsWith("#")) {
-            hex = color.substring(1);
-            ECSSColor ecssColor = ECSSColor.getFromNameCaseInsensitiveOrNull(color);
-            if (ecssColor != null) {
-                name = ecssColor.getName();
-            }
+            hex = color;
         } else {
             ECSSColor ecssColor = ECSSColor.getFromNameCaseInsensitiveOrNull(color);
             if (ecssColor != null) {
-                name = color;
-                hex = ecssColor.getAsHexColorValue().substring(1);
+                hex = ecssColor.getAsHexColorValue();
             } else {
                 log.error("Could not convert: " + color);
             }
         }
         if (hex != null) {
-            return Optional.of(Color
-                .builder()
-                .hex(hex)
-                .name(name).build());
+            return Optional.of(hex);
         }
         return Optional.empty();
     }

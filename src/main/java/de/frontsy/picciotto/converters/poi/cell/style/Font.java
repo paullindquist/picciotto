@@ -6,14 +6,16 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 @Slf4j
 @Builder
 @Data
 public class Font implements PoiStyle
 	{
-	public static final String DEFAULT_COLOR = "000000";
+	public static final String DEFAULT_COLOR = "#000000";
 	public static final String DEFAULT_FAMILY = XSSFFont.DEFAULT_FONT_NAME;
+	public static final String DEFAULT_WEIGHT = "normal";
 	private String fontFamily;
 	private String fontSize;
 	private String fontStretch;
@@ -36,11 +38,8 @@ public class Font implements PoiStyle
 		}
 
 	@Override
-	public void setStyle( XSSFCellStyle style )
+	public void setStyle( XSSFCellStyle style, XSSFWorkbook workbook )
 		{
-		XSSFFont font = new XSSFFont( );
-		font.setBold( isFontWeightBold( ) );
-		font.setColor( ColorConverter.hexToXSSFColor( "red" ));
-		style.setFont( font );
+		style.getFont().setBold( isFontWeightBold());
 		}
 	}

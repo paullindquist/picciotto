@@ -6,6 +6,7 @@ import lombok.Data;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 @Data
 @Builder
@@ -20,8 +21,8 @@ public class Background implements PoiStyle {
     private final String backgroundAttachment;
 
     @Override
-    public void setStyle(XSSFCellStyle style) {
-        XSSFColor convertedColor = ColorConverter.hexToXSSFColor("#" + color);
+    public void setStyle( XSSFCellStyle style, XSSFWorkbook workbook ) {
+        XSSFColor convertedColor = ColorConverter.hexToXSSFColor(color);
         style.setFillForegroundColor(convertedColor);
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
     }

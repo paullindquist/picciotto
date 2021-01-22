@@ -47,12 +47,12 @@ public class WorkbookToPoi {
                         XSSFCellStyle cellStyle = xssfWorkbook.createCellStyle();
                         for (PoiStyle style : styles.values()) {
                             try {
-                                style.setStyle(cellStyle);
+                                style.setStyle(cellStyle, xssfWorkbook);
+                                xssfCell.setCellStyle(cellStyle);
                             } catch (Exception e) {
                                 log.error(e.getMessage());
                             }
                         }
-                        xssfCell.setCellStyle(cellStyle);
                     }
                     cellIndex += 1;
                 }

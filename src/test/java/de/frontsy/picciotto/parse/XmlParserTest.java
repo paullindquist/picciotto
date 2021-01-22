@@ -126,7 +126,7 @@ class XmlParserTest {
                         for (PoiStyle style : cell.getStyles().values()) {
                             if (style instanceof Background) {
                                 found = ((Background) style).getColor();
-                                assertEquals(found, "dedede");
+                                assertEquals(found, "#dedede");
                             }
                         }
                     }
@@ -150,11 +150,11 @@ class XmlParserTest {
                         for (PoiStyle style : cell.getStyles().values()) {
                             if (style instanceof Background) {
                                 found = ((Background) style).getColor();
-                                assertEquals(found, "dedede");
+                                assertEquals(found, "#dedede");
                             }
                             if (style instanceof Border) {
                                 found = ((Border) style).getBorderColor();
-                                assertEquals(found, "ff0000");
+                                assertEquals(found, "#ff0000");
                             }
                         }
                     }

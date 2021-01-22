@@ -32,7 +32,7 @@ class BackgroundFactoryTest {
             .values(values)
             .build();
         Background style = (Background) backgroundStyleFactory.getStyle(rule);
-        assertEquals("dedede", style.getColor());
+        assertEquals("#dedede", style.getColor());
     }
 
     @Test

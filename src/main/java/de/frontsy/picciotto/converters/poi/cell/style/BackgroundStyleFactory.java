@@ -2,7 +2,6 @@ package de.frontsy.picciotto.converters.poi.cell.style;
 
 import de.frontsy.picciotto.converters.poi.ColorConverter;
 import de.frontsy.picciotto.parse.css.Rule;
-import de.frontsy.picciotto.structure.Color;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
@@ -21,12 +20,8 @@ public class BackgroundStyleFactory extends AbstractStyleFactory {
 
         if (properties != null) {
             if (properties.containsKey("background-color")) {
-                Optional<Color> colorAttempt = ColorConverter.toHex(properties.get("background-color"));
-                if (colorAttempt.isPresent()) {
-                    colorHex = colorAttempt.get().getHex();
-                } else {
-                    colorHex = DEFAULT_BACKGROUND_COLOR;
-                }
+                Optional<String> colorAttempt = ColorConverter.toHex(properties.get("background-color"));
+                colorHex = colorAttempt.orElse(DEFAULT_BACKGROUND_COLOR);
             } else {
                 colorHex = DEFAULT_BACKGROUND_COLOR;
             }

@@ -10,12 +10,14 @@ public class FontStyleFactory extends AbstractStyleFactory
 	public PoiStyle getStyle( Rule rule )
 		{
 		Map<String, String> properties = rule.getValues( );
-		String color = properties.getOrDefault( "color", Font.DEFAULT_COLOR );
-		String family = properties.getOrDefault( "font-family", Font.DEFAULT_FAMILY );
+		String color = properties.getOrDefault("color", Font.DEFAULT_COLOR);
+		String family = properties.getOrDefault("font-family", Font.DEFAULT_FAMILY);
+		String weight = properties.getOrDefault("font-weight", Font.DEFAULT_WEIGHT);
 		return Font
-				.builder( )
-				.color( color )
+				.builder()
+				.color(color)
 				.fontFamily(family)
-				.build( );
+				.fontWeight(weight)
+				.build();
 		}
 	}

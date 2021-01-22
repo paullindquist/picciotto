@@ -62,15 +62,6 @@ class CellParserTest {
         assertTrue(cell.isPresent());
         assertEquals(rowspan, cell.get().getRowspan());
     }
-    @Test
-    void shouldFindColorStyleAsFontColor() {
-        String red = "red";
-        String xml = String.format("<cell style='color:%s'>red colored text</cell>", red);
-        Optional<Cell> cell = cellParser.parse(xml);
-        assertTrue(cell.isPresent());
-        Font font = ( Font ) cell.get().getStyles().get("color");
-        assertEquals(red, font.getColor());
-    }
 
     @Test
     void shouldDefaultFontFamilyToCalibri() {

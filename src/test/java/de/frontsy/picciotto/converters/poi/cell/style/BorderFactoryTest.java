@@ -3,6 +3,7 @@ package de.frontsy.picciotto.converters.poi.cell.style;
 import de.frontsy.picciotto.parse.css.Rule;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,8 @@ class BorderFactoryTest {
         Border borderStyle = (Border) borderStyleFactory.getStyle(rule);
 
         XSSFCellStyle mockedCellStyle = mock(XSSFCellStyle.class);
-        borderStyle.setStyle(mockedCellStyle);
+        XSSFWorkbook mockedWorkbook = mock(XSSFWorkbook.class);
+        borderStyle.setStyle(mockedCellStyle, mockedWorkbook);
 
         ArgumentCaptor<XSSFColor> argument = ArgumentCaptor.forClass(XSSFColor.class);
 
