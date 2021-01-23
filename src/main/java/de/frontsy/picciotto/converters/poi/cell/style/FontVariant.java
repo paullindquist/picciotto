@@ -10,14 +10,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 @Slf4j
 @Builder
 @Data
-public class FontFamily implements PoiStyle {
-public static final String DEFAULT_FAMILY = "normal";
+public class FontVariant implements PoiStyle {
+public static final String DEFAULT_WEIGHT = "normal";
 private final String name;
 
 @Override
 public void setStyle( XSSFCellStyle style, XSSFWorkbook workbook )
     {
-    XSSFFont font = style.getFont( );
-    font.setFamily( org.apache.poi.ss.usermodel.FontFamily.SCRIPT );
+    // Does this even make sense for a spreadsheet?
     }
 }

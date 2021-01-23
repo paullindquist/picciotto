@@ -4,14 +4,14 @@ import de.frontsy.picciotto.parse.css.Rule;
 
 import java.util.Map;
 
-public class FontStyleFactory extends AbstractStyleFactory
+public class FontWeightStyleFactory extends AbstractStyleFactory
 	{
 	@Override
 	public PoiStyle getStyle( Rule rule )
 		{
 		Map<String, String> properties = rule.getValues( );
 		String style = properties.getOrDefault( "font-style", FontStyle.DEFAULT_STYLE );
-		return FontStyle
+		return FontWeight
 				.builder( )
 				.name( style )
 				.build( );

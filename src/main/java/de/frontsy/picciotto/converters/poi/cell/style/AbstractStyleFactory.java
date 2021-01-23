@@ -19,13 +19,16 @@ public abstract class AbstractStyleFactory {
             case "color":
                 return Optional.of(new ColorStyleFactory());
             case "font-style":
+                return Optional.of(new FontStyleFactory());
             case "font-variant":
+                return Optional.of(new FontVariantFactory());
             case "font-weight":
+                return Optional.of(new FontWeightStyleFactory());
             case "font-stretch":
             case "font-size":
             case "line-height":
             case "font-family":
-                return Optional.of(new FontStyleFactory());
+                return Optional.of(new FontFamilyStyleFactory());
         }
         return Optional.empty();
     }

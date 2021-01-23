@@ -10,14 +10,26 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 @Slf4j
 @Builder
 @Data
-public class FontFamily implements PoiStyle {
-public static final String DEFAULT_FAMILY = "normal";
+public class FontWeight implements PoiStyle {
+public static final String DEFAULT_WEIGHT = "normal";
 private final String name;
+
+private boolean isFontWeightBold( )
+		{
+		switch ( name )
+			{
+			case "bold":
+			case "700":
+				return true;
+			default:
+				return false;
+			}
+		}
 
 @Override
 public void setStyle( XSSFCellStyle style, XSSFWorkbook workbook )
     {
     XSSFFont font = style.getFont( );
-    font.setFamily( org.apache.poi.ss.usermodel.FontFamily.SCRIPT );
+    font.setBold( isFontWeightBold());
     }
 }
