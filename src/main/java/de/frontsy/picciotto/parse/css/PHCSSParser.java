@@ -39,13 +39,32 @@ public class PHCSSParser implements CSSParser {
             @Override
             public void onDeclaration(@Nonnull final CSSDeclaration declaration) {
                 Map<String, String> properties = new HashMap<>();
-                // Get the Shorthand descriptor for "border"
-                if (declaration.getProperty().equals("border")) {
+                if (declaration.getProperty().equals(ECSSProperty.BORDER)) {
                     final CSSShortHandDescriptor aSHD = CSSShortHandRegistry.getShortHandDescriptor(ECSSProperty.BORDER);
                     for (CSSDeclaration splitDeclaration : aSHD.getSplitIntoPieces(declaration)) {
                         properties.put(splitDeclaration.getProperty(), splitDeclaration.getExpressionAsCSSString());
                     }
-                } else if (declaration.getProperty().equals("background")) {
+                } else if (declaration.getProperty().equals(ECSSProperty.BORDER_TOP.getName())) {
+                    final CSSShortHandDescriptor aSHD = CSSShortHandRegistry.getShortHandDescriptor(ECSSProperty.BORDER_TOP);
+                    for (CSSDeclaration splitDeclaration : aSHD.getSplitIntoPieces(declaration)) {
+                        properties.put(splitDeclaration.getProperty(), splitDeclaration.getExpressionAsCSSString());
+                    }
+                } else if (declaration.getProperty().equals(ECSSProperty.BORDER_RIGHT.getName())) {
+                    final CSSShortHandDescriptor aSHD = CSSShortHandRegistry.getShortHandDescriptor(ECSSProperty.BORDER_RIGHT);
+                    for (CSSDeclaration splitDeclaration : aSHD.getSplitIntoPieces(declaration)) {
+                        properties.put(splitDeclaration.getProperty(), splitDeclaration.getExpressionAsCSSString());
+                    }
+                } else if (declaration.getProperty().equals(ECSSProperty.BORDER_BOTTOM.getName())) {
+                    final CSSShortHandDescriptor aSHD = CSSShortHandRegistry.getShortHandDescriptor(ECSSProperty.BORDER_BOTTOM);
+                    for (CSSDeclaration splitDeclaration : aSHD.getSplitIntoPieces(declaration)) {
+                        properties.put(splitDeclaration.getProperty(), splitDeclaration.getExpressionAsCSSString());
+                    }
+                } else if (declaration.getProperty().equals(ECSSProperty.BORDER_LEFT.getName())) {
+                    final CSSShortHandDescriptor aSHD = CSSShortHandRegistry.getShortHandDescriptor(ECSSProperty.BORDER_LEFT);
+                    for (CSSDeclaration splitDeclaration : aSHD.getSplitIntoPieces(declaration)) {
+                        properties.put(splitDeclaration.getProperty(), splitDeclaration.getExpressionAsCSSString());
+                    }
+                } else if (declaration.getProperty().equals(ECSSProperty.BACKGROUND.getName())) {
                     final CSSShortHandDescriptor aSHD = CSSShortHandRegistry.getShortHandDescriptor(ECSSProperty.BACKGROUND);
                     for (CSSDeclaration splitDeclaration : aSHD.getSplitIntoPieces(declaration)) {
                         properties.put(splitDeclaration.getProperty(), splitDeclaration.getExpressionAsCSSString());

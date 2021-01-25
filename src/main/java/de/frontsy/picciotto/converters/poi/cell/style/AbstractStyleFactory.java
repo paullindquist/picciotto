@@ -11,9 +11,13 @@ public abstract class AbstractStyleFactory {
             case "background":
                 return Optional.of(new BackgroundStyleFactory());
             case "border-top":
+                return Optional.of(new BorderTopStyleFactory());
             case "border-right":
+                return Optional.of(new BorderRightStyleFactory());
             case "border-bottom":
+                return Optional.of(new BorderBottomStyleFactory());
             case "border-left":
+                return Optional.of(new BorderLeftStyleFactory());
             case "border":
                 return Optional.of(new BorderStyleFactory());
             case "color":

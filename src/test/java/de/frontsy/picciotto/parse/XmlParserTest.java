@@ -153,7 +153,7 @@ class XmlParserTest {
                                 assertEquals(found, "#dedede");
                             }
                             if (style instanceof Border) {
-                                found = ((Border) style).getBorderColor();
+                                found = ((Border) style).getColor();
                                 assertEquals(found, "#ff0000");
                             }
                         }

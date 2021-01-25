@@ -19,10 +19,10 @@ public class WorkbookToPoi {
         XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
         for (Sheet sheet : workbook.getSheets()) {
             XSSFSheet xssfSheet = xssfWorkbook.createSheet(sheet.getName());
-            Integer rowIndex = 0;
+            int rowIndex = 0;
             for (Row row : sheet.getRows()) {
                 XSSFRow xssfRow = xssfSheet.createRow(rowIndex);
-                Integer cellIndex = 0;
+                int cellIndex = 0;
                 for (Cell cell : row.getCells()) {
                     XSSFCell xssfCell = xssfRow.createCell(cellIndex);
                     xssfCell.setCellValue(cell.getValue());
@@ -44,9 +44,9 @@ public class WorkbookToPoi {
                     }
                     Map<String, PoiStyle> styles = cell.getStyles();
                     if (!styles.isEmpty()) {
-                        XSSFCellStyle cellStyle = xssfWorkbook.createCellStyle();
                         for (PoiStyle style : styles.values()) {
                             try {
+                                XSSFCellStyle cellStyle = xssfWorkbook.createCellStyle();
                                 style.setStyle(cellStyle, xssfWorkbook);
                                 xssfCell.setCellStyle(cellStyle);
                             } catch (Exception e) {

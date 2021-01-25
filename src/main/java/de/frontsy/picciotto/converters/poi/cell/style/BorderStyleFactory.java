@@ -5,7 +5,6 @@ import de.frontsy.picciotto.parse.css.Rule;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
-import java.util.Optional;
 
 @Slf4j
 public class BorderStyleFactory extends AbstractStyleFactory {
@@ -27,12 +26,12 @@ public class BorderStyleFactory extends AbstractStyleFactory {
             color = DEFAULT_BORDER_COLOR;
         }
         return Border.builder()
-            .borderColor(color)
-            .borderStyle(properties.getOrDefault("border-style", ""))
-            .borderTop(properties.getOrDefault("border-top", ""))
-            .borderRight(properties.getOrDefault("border-right", ""))
-            .borderBottom(properties.getOrDefault("border-bottom", ""))
-            .borderLeft(properties.getOrDefault("border-left", ""))
+            .color(color)
+            .style(properties.getOrDefault("border-style", ""))
+            .top(properties.getOrDefault("border-top", ""))
+            .right(properties.getOrDefault("border-right", ""))
+            .bottom(properties.getOrDefault("border-bottom", ""))
+            .left(properties.getOrDefault("border-left", ""))
             .build();
     }
 }

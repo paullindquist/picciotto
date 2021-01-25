@@ -15,18 +15,19 @@ import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder;
 @Data
 public class Border implements PoiStyle {
     public static final String DEFAULT_COLOR = "#000000";
-    private String borderTop;
-    private String borderRight;
-    private String borderBottom;
-    private String borderLeft;
-    private String borderWidth;
+    public static final String DEFAULT_STYLE = "normal";
+    private String top;
+    private String right;
+    private String bottom;
+    private String left;
+    private String width;
     @Builder.Default
-    private String borderColor = DEFAULT_COLOR;
+    private String color = DEFAULT_COLOR;
     @Builder.Default
-    private String borderStyle = "solid";
+    private String style = DEFAULT_STYLE;
 
-    private BorderStyle determineBorderStyle() {
-        switch (borderStyle) {
+    protected BorderStyle determineBorderStyle() {
+        switch (style) {
             case "thin":
                 return BorderStyle.HAIR;
             case "dotted":
@@ -41,10 +42,10 @@ public class Border implements PoiStyle {
     @Override
     public void setStyle( XSSFCellStyle style, XSSFWorkbook workbook ) {
         // TODO: This..
-        style.setBorderColor(XSSFCellBorder.BorderSide.TOP, ColorConverter.hexToXSSFColor(borderColor));
-        style.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, ColorConverter.hexToXSSFColor(borderColor));
-        style.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, ColorConverter.hexToXSSFColor(borderColor));
-        style.setBorderColor(XSSFCellBorder.BorderSide.LEFT, ColorConverter.hexToXSSFColor(borderColor));
+        style.setBorderColor(XSSFCellBorder.BorderSide.TOP, ColorConverter.hexToXSSFColor(color));
+        style.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, ColorConverter.hexToXSSFColor(color));
+        style.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, ColorConverter.hexToXSSFColor(color));
+        style.setBorderColor(XSSFCellBorder.BorderSide.LEFT, ColorConverter.hexToXSSFColor(color));
 
         BorderStyle borderStyle = determineBorderStyle();
 
