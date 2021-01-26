@@ -32,6 +32,7 @@ public class BorderStyleFactory extends AbstractStyleFactory {
             .right(properties.getOrDefault("border-right", ""))
             .bottom(properties.getOrDefault("border-bottom", ""))
             .left(properties.getOrDefault("border-left", ""))
+            .width(properties.getOrDefault("border-width", ""))
             .build();
     }
 }

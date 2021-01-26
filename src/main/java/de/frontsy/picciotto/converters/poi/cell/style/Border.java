@@ -1,6 +1,8 @@
 package de.frontsy.picciotto.converters.poi.cell.style;
 
 import de.frontsy.picciotto.converters.poi.ColorConverter;
+import de.frontsy.picciotto.converters.poi.cell.PoiBorderStyleFactory;
+import de.frontsy.picciotto.parse.css.Rule;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +11,8 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder;
+
+import java.util.Map;
 
 
 @Slf4j
@@ -27,22 +31,13 @@ public class Border implements PoiStyle {
     @Builder.Default
     private String style = DEFAULT_STYLE;
 
-    protected BorderStyle determineBorderStyle() {
-        switch (style) {
-            case "thin":
-                return BorderStyle.HAIR;
-            case "dotted":
-                return BorderStyle.DOTTED;
-            case "dashed":
-                return BorderStyle.DASHED;
-            default:
-                return BorderStyle.MEDIUM;
-        }
-    }
-
     @Override
     public void setStyle( XSSFCellStyle style, XSSFWorkbook workbook ) {
-        BorderStyle borderStyle = determineBorderStyle();
+        BorderStyle borderStyle =
+            PoiBorderStyleFactory.getBorder(
+                Rule.builder().values(
+                        Map.of("border-style", this.style, "border-width", this.width)
+                ).build()).orElseThrow();
         style.setBorderTop(borderStyle);
         style.setBorderRight(borderStyle);
         style.setBorderBottom(borderStyle);

@@ -35,7 +35,6 @@ public class WorkbookToPoi {
                             try {
                                 style.setStyle(cellStyle, xssfWorkbook);
                                 xssfCell.setCellStyle(cellStyle);
-                                System.out.println(cellStyle.getBottomBorderColor());
                             } catch (Exception e) {
                                 log.error(e.getMessage());
                             }

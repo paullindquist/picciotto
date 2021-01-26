@@ -4,6 +4,7 @@ import de.frontsy.picciotto.converters.WorkbookToPoi;
 import de.frontsy.picciotto.structure.*;
 import de.frontsy.picciotto.parse.Parser;
 import de.frontsy.picciotto.parse.css.CSSParser;
+import org.apache.poi.ss.util.SheetBuilder;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
@@ -49,6 +50,24 @@ public class XmlParser implements Parser {
         return results;
     }
 
+    private Workbook createErrorWorkbook(Exception e) {
+        List<Cell> cells = List.of(Cell.builder()
+                .value(e.getMessage())
+                .build());
+        List<Row> rows = List.of(Row.builder()
+                .cells(cells)
+                .build());
+        Set<Sheet> sheet = Set.of(Sheet.builder()
+                .name("Error!!")
+                .rows(rows)
+                .build());
+        Workbook workbook = Workbook.builder()
+                .name("Uh, oh..")
+                .sheets(sheet)
+                .build();
+        return workbook;
+    }
+
     private Optional<Workbook> doParse(String xml) {
         XmlCursor cursor = null;
         Workbook workbook = null;
@@ -56,6 +75,7 @@ public class XmlParser implements Parser {
             cursor = XmlObject.Factory.parse(xml).newCursor();
         } catch (XmlException e) {
             logger.error(e.getMessage());
+            return Optional.of(createErrorWorkbook(e));
         }
         if (cursor != null) {
             String name;
