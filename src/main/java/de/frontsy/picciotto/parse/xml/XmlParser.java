@@ -26,24 +26,6 @@ public class XmlParser implements Parser {
         this.cssParser = cssParser;
     }
 
-    private List<Column> findColumns(XmlCursor cursor) {
-        List<Column> results = new ArrayList<>();
-        XmlCursor tempCursor = cursor.newCursor();
-        tempCursor.selectPath("column");
-        while (tempCursor.toNextSelection()) {
-            Integer width = 0;
-            String widthAttribute = tempCursor.getAttributeText(QNames.WIDTH);
-            if (widthAttribute != null) {
-                width = Integer.parseInt(widthAttribute);
-            }
-            Column column = Column.builder()
-                .width(width).build();
-            results.add(column);
-        }
-        tempCursor.dispose();
-        return results;
-    }
-
     private List<Row> findRows(XmlCursor cursor) {
         List<Row> results = new ArrayList<>();
         XmlCursor tempCursor = cursor.newCursor();
@@ -103,11 +85,9 @@ public class XmlParser implements Parser {
                             }
                         }
                         List<Row> rows = findRows(cursor);
-                        List<Column> columns = findColumns(cursor);
                         Sheet sheet = Sheet.builder()
                             .name(name)
                             .rows(rows)
-                            .columns(columns)
                             .build();
                         sheets.add(sheet);
                     }

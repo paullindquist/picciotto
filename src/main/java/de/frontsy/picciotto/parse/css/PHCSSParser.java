@@ -39,7 +39,7 @@ public class PHCSSParser implements CSSParser {
             @Override
             public void onDeclaration(@Nonnull final CSSDeclaration declaration) {
                 Map<String, String> properties = new HashMap<>();
-                if (declaration.getProperty().equals(ECSSProperty.BORDER)) {
+                if (declaration.getProperty().equals(ECSSProperty.BORDER.getName())) {
                     final CSSShortHandDescriptor aSHD = CSSShortHandRegistry.getShortHandDescriptor(ECSSProperty.BORDER);
                     for (CSSDeclaration splitDeclaration : aSHD.getSplitIntoPieces(declaration)) {
                         properties.put(splitDeclaration.getProperty(), splitDeclaration.getExpressionAsCSSString());

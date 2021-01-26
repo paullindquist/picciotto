@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder;
 
@@ -41,18 +42,15 @@ public class Border implements PoiStyle {
 
     @Override
     public void setStyle( XSSFCellStyle style, XSSFWorkbook workbook ) {
-        // TODO: This..
-        style.setBorderColor(XSSFCellBorder.BorderSide.TOP, ColorConverter.hexToXSSFColor(color));
-        style.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, ColorConverter.hexToXSSFColor(color));
-        style.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, ColorConverter.hexToXSSFColor(color));
-        style.setBorderColor(XSSFCellBorder.BorderSide.LEFT, ColorConverter.hexToXSSFColor(color));
-
         BorderStyle borderStyle = determineBorderStyle();
-
-
         style.setBorderTop(borderStyle);
         style.setBorderRight(borderStyle);
         style.setBorderBottom(borderStyle);
         style.setBorderLeft(borderStyle);
+        XSSFColor borderColor = ColorConverter.hexToXSSFColor(color);
+        style.setBorderColor(XSSFCellBorder.BorderSide.TOP, borderColor);
+        style.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, borderColor);
+        style.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, borderColor);
+        style.setBorderColor(XSSFCellBorder.BorderSide.LEFT, borderColor);
     }
 }
