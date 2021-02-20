@@ -10,5 +10,6 @@ import java.util.List;
 @Builder
 @ToString
 public class Row {
+    public static final String NAME = "row";
     private final List<Cell> cells;
 }

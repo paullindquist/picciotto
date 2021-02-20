@@ -1,10 +1,11 @@
 package de.frontsy.picciotto.parse;
 
-import de.frontsy.picciotto.converters.poi.cell.style.Background;
-import de.frontsy.picciotto.converters.poi.cell.style.Border;
-import de.frontsy.picciotto.converters.poi.cell.style.PoiStyle;
-import de.frontsy.picciotto.parse.css.CSSParser;
+import de.frontsy.picciotto.convert.poi.cell.style.Background;
+import de.frontsy.picciotto.convert.poi.cell.style.Border;
+import de.frontsy.picciotto.convert.poi.cell.style.PoiStyle;
 import de.frontsy.picciotto.parse.css.PHCSSParser;
+import de.frontsy.picciotto.parse.xml.CellParser;
+import de.frontsy.picciotto.parse.xml.RowParser;
 import de.frontsy.picciotto.parse.xml.XmlParser;
 import de.frontsy.picciotto.structure.Cell;
 import de.frontsy.picciotto.structure.Row;
@@ -29,9 +30,14 @@ class XmlParserTest {
 
     @BeforeEach
     private void before() {
-        //CSSParser cssParser = new SteadyStateCSSParser();
-        CSSParser cssParser = new PHCSSParser();
-        parser = new XmlParser(cssParser);
+        CellParser cellParser = CellParser
+                .builder()
+                .cssParser(new PHCSSParser())
+                .build();
+        RowParser rowParser = RowParser
+                .builder()
+                .cellParser(cellParser)
+                .build();
     }
 
     @Test

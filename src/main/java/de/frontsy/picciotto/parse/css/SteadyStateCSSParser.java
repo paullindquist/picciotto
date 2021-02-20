@@ -1,5 +1,5 @@
 package de.frontsy.picciotto.parse.css;
-
+/*
 import com.steadystate.css.parser.CSSOMParser;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -47,3 +47,4 @@ public class SteadyStateCSSParser implements CSSParser {
         return rules;
     }
 }
+*/

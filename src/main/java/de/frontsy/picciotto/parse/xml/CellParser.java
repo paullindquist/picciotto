@@ -1,32 +1,23 @@
 package de.frontsy.picciotto.parse.xml;
 
-import de.frontsy.picciotto.converters.poi.cell.style.AbstractStyleFactory;
-import de.frontsy.picciotto.converters.poi.cell.style.PoiStyle;
+import de.frontsy.picciotto.convert.poi.cell.style.AbstractStyleFactory;
+import de.frontsy.picciotto.convert.poi.cell.style.PoiStyle;
 import de.frontsy.picciotto.parse.css.CSSParser;
 import de.frontsy.picciotto.parse.css.Rule;
 import de.frontsy.picciotto.structure.Cell;
+import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 
-import javax.annotation.Nonnull;
 import javax.xml.namespace.QName;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
+@Builder
 public class CellParser {
     public static final Cell ERROR_CELL = Cell.builder().value("ERROR").build();
     private CSSParser cssParser;
-
-    private CellParser() {
-    }
-
-    public CellParser(CSSParser cssParser) {
-        this.cssParser = cssParser;
-    }
 
     private Optional<Integer> determineSpan(XmlCursor cursor, QName spanName) {
         Integer span = null;
@@ -45,9 +36,14 @@ public class CellParser {
         }
     }
 
-    private Map<String, PoiStyle> findStyles(@Nonnull String styleAttribute) {
+    private Map<String, PoiStyle> findStyles(String styleAttribute) {
         Map<String, PoiStyle> styles = new HashMap<>();
-        Set<Rule> rules = cssParser.parseInline(styleAttribute);
+        Set<Rule> rules = new HashSet<>();
+        try {
+            rules.addAll(cssParser.parseInline(styleAttribute));
+        } catch (IllegalStateException illegalStateException) {
+            log.error("Found invalid CSS: " + styleAttribute);
+        }
         for (Rule rule : rules) {
             Optional<AbstractStyleFactory> styleFactory = AbstractStyleFactory.getStyleFactory(rule.getProperty());
             if (styleFactory.isPresent()) {

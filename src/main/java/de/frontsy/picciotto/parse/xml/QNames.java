@@ -10,4 +10,5 @@ public final class QNames {
     public final static QName ROWSPAN = new QName("rowspan");
     public final static QName COLSPAN = new QName("colspan");
     public final static QName CELL = new QName("cell");
+    public final static QName ROW = new QName("row");
 }

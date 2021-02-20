@@ -1,10 +1,9 @@
 package de.frontsy.picciotto.parse.xml;
 
-import de.frontsy.picciotto.converters.WorkbookToPoi;
+import de.frontsy.picciotto.convert.WorkbookToPoi;
 import de.frontsy.picciotto.structure.*;
 import de.frontsy.picciotto.parse.Parser;
-import de.frontsy.picciotto.parse.css.CSSParser;
-import org.apache.poi.ss.util.SheetBuilder;
+import lombok.Builder;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
@@ -16,38 +15,24 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
 
+@Builder
 public class XmlParser implements Parser {
     final Logger logger = LoggerFactory.getLogger(XmlParser.class);
-    private CSSParser cssParser;
-
-    private XmlParser() {
-    }
-
-    public XmlParser(CSSParser cssParser) {
-        this.cssParser = cssParser;
-    }
+    private RowParser rowParser;
 
     private List<Row> findRows(XmlCursor cursor) {
-        List<Row> results = new ArrayList<>();
+        List<Row> rows = new ArrayList<>();
         XmlCursor tempCursor = cursor.newCursor();
-        tempCursor.selectPath("row");
+        tempCursor.selectPath("./row");
+
         while (tempCursor.toNextSelection()) {
-            tempCursor.push();
-            List<Cell> cells = new ArrayList<>();
-            if (tempCursor.toChild(QNames.CELL)) {
-                CellParser cellParser = new CellParser(cssParser);
-                do {
-                    cells.add(cellParser.parse(tempCursor.xmlText()).orElse(CellParser.ERROR_CELL));
-                } while (tempCursor.toNextSibling(QNames.CELL));
+            Optional<Row> row = rowParser.parse(cursor.xmlText());
+            if (row.isPresent()) {
+                rows.add(row.orElseThrow());
             }
-            tempCursor.pop();
-            Row row = Row.builder()
-                .cells(cells)
-                .build();
-            results.add(row);
         }
         tempCursor.dispose();
-        return results;
+        return rows;
     }
 
     private Workbook createErrorWorkbook(Exception e) {
