@@ -1,13 +1,18 @@
 package de.frontsy.picciotto;
 
+import de.frontsy.picciotto.convert.WorkbookToPoi;
 import de.frontsy.picciotto.parse.css.CSSParser;
 import de.frontsy.picciotto.parse.css.PHCSSParser;
 import de.frontsy.picciotto.parse.xml.CellParser;
 import de.frontsy.picciotto.parse.xml.RowParser;
 import de.frontsy.picciotto.parse.xml.XmlParser;
+import de.frontsy.picciotto.structure.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * The type Spreadsheet generator.
@@ -36,7 +41,11 @@ public class SpreadsheetGenerator {
                 .builder()
                 .rowParser(rowParser)
                 .build();
-        parser.parseToBAIS(xml, stream);
+        Optional<Workbook> workbook = parser.parse(xml);
+        if (workbook.isPresent()) {
+            XSSFWorkbook xssfWorkbook = WorkbookToPoi.workbookToXSSFWorkbook(workbook.orElseThrow());
+            xssfWorkbook.write(stream);
+        }
         return stream.toByteArray();
     }
 }

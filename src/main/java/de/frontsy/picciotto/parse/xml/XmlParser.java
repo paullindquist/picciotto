@@ -1,18 +1,14 @@
 package de.frontsy.picciotto.parse.xml;
 
-import de.frontsy.picciotto.convert.WorkbookToPoi;
 import de.frontsy.picciotto.structure.*;
 import de.frontsy.picciotto.parse.Parser;
 import lombok.Builder;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.*;
 
 @Builder
@@ -26,7 +22,7 @@ public class XmlParser implements Parser {
         tempCursor.selectPath("./row");
 
         while (tempCursor.toNextSelection()) {
-            Optional<Row> row = rowParser.parse(cursor.xmlText());
+            Optional<Row> row = rowParser.parse(tempCursor.xmlText());
             if (row.isPresent()) {
                 rows.add(row.orElseThrow());
             }
@@ -91,16 +87,16 @@ public class XmlParser implements Parser {
                         }
                         List<Row> rows = findRows(cursor);
                         Sheet sheet = Sheet.builder()
-                            .name(name)
-                            .rows(rows)
-                            .build();
+                                .name(name)
+                                .rows(rows)
+                                .build();
                         sheets.add(sheet);
                     }
                 }
                 workbook = Workbook.builder()
-                    .name(name)
-                    .sheets(sheets)
-                    .build();
+                        .name(name)
+                        .sheets(sheets)
+                        .build();
             }
         }
         if (workbook != null) {
@@ -113,16 +109,5 @@ public class XmlParser implements Parser {
     @Override
     public Optional<Workbook> parse(String content) {
         return doParse(content);
-    }
-
-    public void parseToBAIS(String content, ByteArrayOutputStream stream) throws IOException {
-        Optional<Workbook> parsed = doParse(content);
-        if (parsed.isPresent()) {
-            Workbook workbook = parsed.get();
-            WorkbookToPoi workbookToPoi = new WorkbookToPoi();
-            XSSFWorkbook converted = workbookToPoi.workbookToXSSFWorkbook(workbook);
-            converted.write(stream);
-            converted.close();
-        }
     }
 }

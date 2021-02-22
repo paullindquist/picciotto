@@ -28,6 +28,8 @@ public abstract class AbstractStyleFactory {
                 return Optional.of(new FontVariantFactory());
             case "font-weight":
                 return Optional.of(new FontWeightStyleFactory());
+            case "text-align":
+                return Optional.of(new TextAlignStyleFactory());
             case "font-stretch":
             case "font-size":
             case "line-height":

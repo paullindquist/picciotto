@@ -9,10 +9,11 @@ import java.util.Optional;
 public class PoiBorderStyleFactory {
     public static Optional<BorderStyle> getBorder(Rule rule) {
         Map<String, String> values = rule.getValues();
+        // FIXME: why am i only checking this??
         if (values.containsKey("border-width")) {
             String width = values.get("border-width");
             String style = values.get("border-style");
-            if (style.equals("solid")) {
+            if (style.isBlank() || style.equals("solid")) { // <-- isBlank might not be "right"?
                 if (width.indexOf("px") > 0) {
                     String pixelString = width.substring(0, width.indexOf("px"));
                     try {
@@ -30,7 +31,7 @@ public class PoiBorderStyleFactory {
                 } else {
                     if (width.equals("thin")) {
                         return Optional.of(BorderStyle.THIN);
-                    } else if (width.equals("medium")) {
+                    } else if (width.isBlank() || width.equals("medium")) {
                         return Optional.of(BorderStyle.MEDIUM);
                     } else if (width.equals("thick")) {
                         return Optional.of(BorderStyle.THICK);
@@ -78,6 +79,6 @@ public class PoiBorderStyleFactory {
                 }
             }
         }
-        return null;
+        return Optional.empty();
     }
 }

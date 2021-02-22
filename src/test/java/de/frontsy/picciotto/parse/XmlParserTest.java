@@ -38,6 +38,10 @@ class XmlParserTest {
                 .builder()
                 .cellParser(cellParser)
                 .build();
+        parser = XmlParser
+                .builder()
+                .rowParser(rowParser)
+                .build();
     }
 
     @Test
@@ -74,8 +78,8 @@ class XmlParserTest {
     @Test
     public void shouldFindMultipleSheets() {
         Optional<Workbook> parsed = parser.parse("<workbook><name>" + HELLO_WORLD + "</name>" +
-            "<sheet name=\"" + FOO + "\"/>" +
-            "<sheet name=\"" + BAR + "\"/></workbook>");
+                "<sheet name=\"" + FOO + "\"/>" +
+                "<sheet name=\"" + BAR + "\"/></workbook>");
         Set<Sheet> sheets = parsed.get().getSheets();
         assertEquals(2, sheets.size());
     }
@@ -83,11 +87,11 @@ class XmlParserTest {
     @Test
     public void shouldFindSheetRows() {
         Optional<Workbook> parsed = parser.parse("<workbook><name>" + HELLO_WORLD + "</name>" +
-            "<sheet name=\"" + FOO + "\">" +
-            "<row></row>" +
-            "<row></row>" +
-            "<row></row>" +
-            "</sheet></workbook>");
+                "<sheet name=\"" + FOO + "\">" +
+                "<row></row>" +
+                "<row></row>" +
+                "<row></row>" +
+                "</sheet></workbook>");
         Set<Sheet> sheets = parsed.get().getSheets();
         List<Row> rows = new ArrayList<>();
         for (Sheet sheet : sheets) {
@@ -100,9 +104,9 @@ class XmlParserTest {
     @Test
     public void shouldFindCellValues() {
         Optional<Workbook> parsed = parser.parse("<workbook><name>" + HELLO_WORLD + "</name>" +
-            "<sheet name=\"" + FOO + "\">" +
-            "<row><cell>" + BAR + "</cell></row>" +
-            "</sheet></workbook>");
+                "<sheet name=\"" + FOO + "\">" +
+                "<row><cell>" + BAR + "</cell></row>" +
+                "</sheet></workbook>");
         String content = "";
         if (parsed.isPresent()) {
             Set<Sheet> sheets = parsed.get().getSheets();
@@ -120,9 +124,9 @@ class XmlParserTest {
     @Test
     public void shouldFindCellWidthStyle() {
         Optional<Workbook> parsed = parser.parse("<workbook><name>" + HELLO_WORLD + "</name>" +
-            "<sheet name=\"" + FOO + "\">" +
-            "<row><cell style='background:#dedede'>" + BAR + "</cell></row>" +
-            "</sheet></workbook>");
+                "<sheet name=\"" + FOO + "\">" +
+                "<row><cell style='background:#dedede'>" + BAR + "</cell></row>" +
+                "</sheet></workbook>");
         String found;
         if (parsed.isPresent()) {
             Set<Sheet> sheets = parsed.get().getSheets();
@@ -144,9 +148,9 @@ class XmlParserTest {
     @Test
     public void shouldFindCellStyle() {
         Optional<Workbook> parsed = parser.parse("<workbook><name>" + HELLO_WORLD + "</name>" +
-            "<sheet name=\"" + FOO + "\">" +
-            "<row><cell style='background:#dedede;border: solid thin red'>" + BAR + "</cell></row>" +
-            "</sheet></workbook>");
+                "<sheet name=\"" + FOO + "\">" +
+                "<row><cell style='background:#dedede;border: solid thin red'>" + BAR + "</cell></row>" +
+                "</sheet></workbook>");
         String found;
         if (parsed.isPresent()) {
             Set<Sheet> sheets = parsed.get().getSheets();

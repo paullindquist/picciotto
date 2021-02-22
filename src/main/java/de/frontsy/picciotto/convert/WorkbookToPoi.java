@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Slf4j
 public class WorkbookToPoi {
-    public XSSFWorkbook workbookToXSSFWorkbook(Workbook workbook) {
+    public static XSSFWorkbook workbookToXSSFWorkbook(Workbook workbook) {
         XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
         for (Sheet sheet : workbook.getSheets()) {
             XSSFSheet xssfSheet = xssfWorkbook.createSheet(sheet.getName());
@@ -49,7 +49,7 @@ public class WorkbookToPoi {
         return xssfWorkbook;
     }
 
-    private void doSpans(XSSFSheet xssfSheet, int rowIndex, int cellIndex, Cell cell, XSSFCell xssfCell) {
+    private static void doSpans(XSSFSheet xssfSheet, int rowIndex, int cellIndex, Cell cell, XSSFCell xssfCell) {
         int rowSpan = cell.getRowspan();
         int colSpan = cell.getColspan();
         if (rowSpan > 0 || colSpan > 0) {
