@@ -1,3 +1,3 @@
 # picciotto
 
-An XML -> PDF converter..
+An XML -> XLSX converter..
